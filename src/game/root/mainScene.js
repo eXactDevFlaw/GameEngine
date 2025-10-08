@@ -1,7 +1,7 @@
 import Phaser, { Time } from "phaser";
 import { MyProfile } from "./core/assetLoader";
 import WorldOne from "./worldOne.js";
-import WorldTwo from "./worldOne.js";
+import WorldTwo from "./worldTwo.js";
 import SceneLoader from "./core/sceneLoader.js";
 import GAME_DATA from "./core/mainGameHandler.js";
 
@@ -39,8 +39,6 @@ export default class MainScene extends Phaser.Scene {
     this.initOnStartUp();
     this.time.delayedCall(3000, () => {
       GAME_DATA.SCENE_REFS.SCENE_LOADER_REF.loadNewScene(GAME_DATA.SCENE_REFS.SCENE_LOADER_REF.lastLoadedScene, WorldTwo, `scene${Date.now()}`);
-      console.log(GAME_DATA.SCENE_REFS.SCENE_LOADER_REF.currentScene)
-      console.log("Ich brauche 3 sekunden")
     })
   }
 

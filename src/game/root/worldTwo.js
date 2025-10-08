@@ -7,21 +7,21 @@ const keys = {
 
 export default class WorldOne extends Phaser.Scene {
     constructor(){
-        super();
-    }
+    super();
+  }
 
-     //Preloaded Assets
-      preload() {
+  //Preloaded Assets
+  preload() {
         this.load.image(keys.firstPicKey, HisProfile);
-      }
-    
-      init() {}
-    
-      //Erzeugt Assets
-      create() {
+  }
+
+  init() {}
+
+  //Erzeugt Assets
+  create() {
         this.firstPic = this.add.sprite(this.scale.width * 0.5, this.scale.height * 0.5, keys.firstPicKey)
-      }
-    
+  }
+
       update() {
-      }
+}
 }

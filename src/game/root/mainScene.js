@@ -1,13 +1,9 @@
 import Phaser, { Time } from "phaser";
 import { MyProfile } from "./core/assetLoader";
 import WorldOne from "./worldOne.js";
-import WorldTwo from "./worldOne.js";
+import WorldTwo from "./worldTwo.js";
 import SceneLoader from "./core/sceneLoader.js";
 import GAME_DATA from "./core/mainGameHandler.js";
-
-const keys = {
-  firstPicKey: "eins",
-};
 
 export default class MainScene extends Phaser.Scene {
   constructor() {

@@ -35,8 +35,6 @@ export default class MainScene extends Phaser.Scene {
     this.initOnStartUp();
     this.time.delayedCall(3000, () => {
       GAME_DATA.SCENE_REFS.SCENE_LOADER_REF.loadNewScene(GAME_DATA.SCENE_REFS.SCENE_LOADER_REF.lastLoadedScene, WorldTwo, `scene${Date.now()}`);
-      console.log(GAME_DATA.SCENE_REFS.SCENE_LOADER_REF.currentScene)
-      console.log("Ich brauche 3 sekunden")
     })
   }
 

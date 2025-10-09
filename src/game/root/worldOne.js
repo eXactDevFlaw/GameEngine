@@ -1,30 +1,29 @@
 import Phaser from "phaser";
-import { MyProfile } from "./core/assetLoader.js";
+import Player from "./gameObjects/player/player.js";
 
 const keys = {
   worldOnePic: "worldOnePic",
 };
 
-export default class WorldTwo extends Phaser.Scene {
+export default class WorldOne extends Phaser.Scene {
   constructor() {
     super();
   }
 
   //Preloaded Assets
   preload() {
-    this.load.image(keys.worldOnePic, MyProfile);
+    Player.preload(this);
   }
 
   init() {}
 
   //Erzeugt Assets
   create() {
-    this.firstPic = this.add.sprite(
-      this.scale.width * 0.5,
-      this.scale.height * 0.5,
-      keys.worldOnePic
-    );
+    this.player = new Player(this)
+    this.player.create(100, 100)
   }
 
-  update() {}
+  update(time, delta) {
+    this.player.update(time, delta);
+  }
 }

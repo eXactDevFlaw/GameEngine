@@ -1,6 +1,8 @@
 import Phaser from "phaser";
-// PLAYER ASSETS
-import { PlayerIdle } from "../../core/assetLoader.js";
+import {
+    // PLAYER_ASSETS 
+    PlayerIdle,
+ } from "../../core/assetLoader.js";
 
 const keys = {
     idle_spritesheet_key: "idle_spritesheet",
@@ -12,7 +14,7 @@ export default class Player {
         /**@type {Phaser.Scene}*/
         this.scene = scene;
         this.speed = 0;
-        this.collaiderPool = [];
+        this.colliderPool = [];
         this.isDead = false;
 
     }

@@ -3,7 +3,7 @@ import MainScene from "./root/mainScene.js";
 
 export default new Phaser.Game({
   type: Phaser.WEBGL,
-  pixelArt: false,
+  pixelArt: true,
   
   scale: {
     mode: Phaser.DOM.RESIZE,
@@ -14,7 +14,7 @@ export default new Phaser.Game({
   physics: {
     default: "arcade",
     arcade: {
-      gravity: 0,
+      gravity: 500,
       debug: true,
     },
   },

@@ -16,10 +16,6 @@ const MonsterConf = [
     { Path: MushroomOneRun, SpriteKey: "mushOne-run", AnimKey: "mushOne-run-anim", frameWidth: 80, frameHeight: 64, startFrame: 0, endFrame: 7, rate: 8, rep: -1 },
 ]
 
-const MOVE_STATES = {
-    IDLE: 0,
-    MOVE: 1,
-}
 
 export default class MushRoomMonsterOne{
     constructor(scene) {
@@ -27,7 +23,12 @@ export default class MushRoomMonsterOne{
         this.scene = scene;
         this.isDead = false;
         this.playerRef = null;
-        this.currentMoveState = MOVE_STATES.IDLE
+        this.currentMoveState = null;
+
+        this.MOVE_STATES = {
+            IDLE: 0,
+            MOVE: 1,
+        }
     }
     /**
      * 
@@ -40,6 +41,11 @@ export default class MushRoomMonsterOne{
             });
         });
     };
+
+    init() {
+        this.MoveStateMachine = new MushroomOneMachine(this);
+        this.currentMoveState = this.MOVE_STATES.IDLE;
+    }
 
     createAnimation() {
         MonsterConf.forEach(({SpriteKey, AnimKey, startFrame, endFrame, rate, rep}) => {
@@ -62,7 +68,7 @@ export default class MushRoomMonsterOne{
     }
 
     create(x, y) {
-        this.currentMoveState = MOVE_STATES.IDLE
+        this.init();
         this.createAnimation()
         this.mushroom = this.scene.physics.add.sprite(x, y, null)
         this.mushroom.setScale(2)
@@ -71,6 +77,6 @@ export default class MushRoomMonsterOne{
     }
 
     update(time, delta) {
-        MushroomOneMachine.MoveMachine(this)
+        this.MoveStateMachine.MoveMachine()
     }
 }

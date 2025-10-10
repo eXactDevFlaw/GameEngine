@@ -1,6 +1,6 @@
 //::::::::::::::::::::::::::::::::::BACKGROUND_ASSETS:::::::::::::::::::::::::::::::::://
-import BackgroundLayer2 from "../assets/background/ForestAsset/1.Parallax/1_TreesBackground.png";
 import BackgroundLayer1 from "../assets/background/ForestAsset/1.Parallax/0_Background.png";
+import BackgroundLayer2 from "../assets/background/ForestAsset/1.Parallax/1_TreesBackground.png";
 import BackgroundLayer3 from "../assets/background/ForestAsset/1.Parallax/2_Trees.png";
 import BackgroundLayer4 from "../assets/background/ForestAsset/1.Parallax/3_Trees.png";
 import BackgroundLayer5 from "../assets/background/ForestAsset/1.Parallax/4_Trees.png";

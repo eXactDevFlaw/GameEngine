@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import Player from "./gameObjects/player/player.js";
 import MushRoomMonsterOne from "./gameObjects/monster/MushroomOneMonster/MushroomMonster.js";
 import MushRoomMonsterTwo from "./gameObjects/monster/MushroomTwoMonster/MushroomTwoMonster.js";
+import ParallaxBackground from "./gameObjects/maps/background.js";
 
 const keys = {
   worldOnePic: "worldOnePic",
@@ -17,6 +18,8 @@ export default class WorldOne extends Phaser.Scene {
   preload() {
     Player.preload(this);
     MushRoomMonsterOne.preload(this);
+    MushRoomMonsterTwo.preload(this);
+    // ParallaxBackground.preload(this);
   }
 
   init() { }

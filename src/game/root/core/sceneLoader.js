@@ -10,7 +10,7 @@ export default class SceneLoader {
     this.mainScene = scene;
     this.currentScene = null;
     this.lastLoadedScene = null;
-  };
+  }
 
   /**
    *
@@ -19,13 +19,16 @@ export default class SceneLoader {
    * @param {string} sceneKeyLaunch
    */
   loadNewScene(oldScene, sceneToLoad, sceneKeyLaunch) {
-    
     this.lastLoadedScene = sceneKeyLaunch;
-    this.currentScene = this.mainScene.scene.add(sceneKeyLaunch, sceneToLoad, true);
+    this.currentScene = this.mainScene.scene.add(
+      sceneKeyLaunch,
+      sceneToLoad,
+      true
+    );
     this.mainScene.scene.launch(sceneKeyLaunch);
     GAME_DATA.CURRENT_GAME_STATE.CURRENT_SCENE = sceneKeyLaunch;
-    if(oldScene){
-        this.mainScene.scene.remove(oldScene);
+    if (oldScene) {
+      this.mainScene.scene.remove(oldScene);
     }
-  };
+  }
 }

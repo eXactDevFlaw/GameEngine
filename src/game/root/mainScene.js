@@ -11,7 +11,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   //Preloaded Assets
-  preload() {}
+  preload() { }
 
   init() {
     //Denk ans Orchester - style = composition

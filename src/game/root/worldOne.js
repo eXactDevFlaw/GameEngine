@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import Player from "./gameObjects/player/player.js";
 import MushRoomMonsterOne from "./gameObjects/monster/MushroomOneMonster/MushroomMonster.js";
+import MushRoomMonsterTwo from "./gameObjects/monster/MushroomTwoMonster/MushroomTwoMonster.js";
 
 const keys = {
   worldOnePic: "worldOnePic",
@@ -18,7 +19,7 @@ export default class WorldOne extends Phaser.Scene {
     MushRoomMonsterOne.preload(this);
   }
 
-  init() {}
+  init() { }
 
   //Erzeugt Assets
   create() {
@@ -29,6 +30,11 @@ export default class WorldOne extends Phaser.Scene {
     newMushroom.getPlayerRef(this.player)
     newMushroom.create(400, 400)
     this.monsterPool.push(newMushroom)
+
+    let newMushroomTwo = new MushRoomMonsterTwo(this);
+    newMushroomTwo.getPlayerRef(this.player)
+    newMushroomTwo.create(800, 800)
+    this.monsterPool.push(newMushroomTwo)
   }
 
   update(time, delta) {

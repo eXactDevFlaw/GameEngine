@@ -19,7 +19,7 @@ export default class WorldOne extends Phaser.Scene {
     Player.preload(this);
     MushRoomMonsterOne.preload(this);
     MushRoomMonsterTwo.preload(this);
-    // ParallaxBackground.preload(this);
+    ParallaxBackground.preload(this);
   }
 
   init() { }
@@ -38,6 +38,9 @@ export default class WorldOne extends Phaser.Scene {
     newMushroomTwo.getPlayerRef(this.player)
     newMushroomTwo.create(800, 800)
     this.monsterPool.push(newMushroomTwo)
+
+    let newBgnLayer1 = new ParallaxBackground(this);
+    this.newBgnLayer1.create(0, 0)
   }
 
   update(time, delta) {

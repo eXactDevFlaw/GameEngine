@@ -13,16 +13,12 @@ export default class PlayerStateMachine {
     moveMachine() {
         switch(this.player.currentMoveState) {
             case this.player.MOVE_STATES.IDLE:
-                console.log("Ich bin Idle")
                 break
             case this.player.MOVE_STATES.JUMP:
-                console.log("Ich bin Jump")
                 break
             case this.player.MOVE_STATES.RUN:
-                console.log("Ich bin Run")
                 break
             case this.player.MOVE_STATES.WALK:
-                console.log("Ich bin Walk")
                 break
         }
     }

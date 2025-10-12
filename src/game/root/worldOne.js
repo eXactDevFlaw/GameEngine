@@ -40,7 +40,7 @@ export default class WorldOne extends Phaser.Scene {
     this.monsterPool.push(newMushroomTwo)
 
     let newBgnLayer1 = new ParallaxBackground(this);
-    this.newBgnLayer1.create(0, 0)
+    newBgnLayer1.create(0, 0)
   }
 
   update(time, delta) {

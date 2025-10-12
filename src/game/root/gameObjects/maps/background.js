@@ -22,18 +22,19 @@ export default class ParallaxBackground {
         /**@type {Phaser.Scene} */ 
         this.scene = scene;
     }
-
     /**
      * 
-     * @param {Phaser.scene} scene 
+     * @param {Phaser.Scene} scene 
      */
     static preload(scene) {
-        if (!scene.textures.exists(BackgroundLayer1)) scene.load.image(BackgroundLayer1); 
+        if (!scene.textures.exists(bgnLayerKeys.bgl1)) scene.load.image(bgnLayerKeys.bgl1, BackgroundLayer1)
+        ParallaxBackground.data = "Test"
     }
 
     create(x, y) {
-        let bgl1X = x;
-        let bgl1Y = y;
-        this.bgl1 = this.scene.add.sprite(bgl1X, bgl1Y, bgnLayerKeys.bgl1)
+        this.bgl1 = this.scene.add.image(0, 0, bgnLayerKeys.bgl1)
+        this.bgl1.setScale(4, 4)
+        this.bgl1.setPosition(this.scene.scale.width * 0.5, this.scene.scale.height * 0.5)
+        this.bgl1.depth = -1000
     }
 }

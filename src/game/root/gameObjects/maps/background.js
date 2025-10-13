@@ -8,21 +8,13 @@ import {
     BackgroundLayer6
 } from "../../core/assetLoader.js";
 
-const bgnLayerKeys = {
-    bgl1: "background-1",
-    bgl2: "background-2",
-    bgl3: "background-3",
-    bgl4: "background-4",
-    bgl5: "background-5",
-    bgl6: "background-6"
-}
-
 const BackgroundConf = [
     { Path: BackgroundLayer1, ImageKey: "background-1", AnimKey: "background-1-anim", width: 524, height: 299},
     { Path: BackgroundLayer2, ImageKey: "background-2", AnimKey: "background-2-anim", width: 524, height: 246},
-    { Path: BackgroundLayer4, ImageKey: "background-4", AnimKey: "background-4-anim", width: 475, height: 323},
-    { Path: BackgroundLayer3, ImageKey: "background-3", AnimKey: "background-3-anim", width: 499, height: 235},
-    { Path: BackgroundLayer5, ImageKey: "background-5", AnimKey: "background-5-anim", width: 520, height: 50},
+    { Path: BackgroundLayer3, ImageKey: "background-4", AnimKey: "background-4-anim", width: 499, height: 235},
+    { Path: BackgroundLayer4, ImageKey: "background-3", AnimKey: "background-3-anim", width: 475, height: 323},
+    { Path: BackgroundLayer5, ImageKey: "background-5", AnimKey: "background-5-anim", width: 520, height: 293},
+    { Path: BackgroundLayer6, ImageKey: "background-5", AnimKey: "background-5-anim", width: 520, height: 50}
 ]
 
 export default class ParallaxBackground {

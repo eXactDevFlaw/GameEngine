@@ -1,10 +1,9 @@
 //::::::::::::::::::::::::::::::::::BACKGROUND_ASSETS:::::::::::::::::::::::::::::::::://
-import BackgroundLayer1 from "../assets/background/ForestAsset/1.Parallax/0_Background.png";
-import BackgroundLayer2 from "../assets/background/ForestAsset/1.Parallax/1_TreesBackground.png";
-import BackgroundLayer3 from "../assets/background/ForestAsset/1.Parallax/2_Trees.png";
-import BackgroundLayer4 from "../assets/background/ForestAsset/1.Parallax/3_Trees.png";
-import BackgroundLayer5 from "../assets/background/ForestAsset/1.Parallax/4_Trees.png";
-import BackgroundLayer6 from "../assets/background/ForestAsset/1.Parallax/5_FloorPlatform.png";
+import BackgroundLayer1 from "../assets/background/darkForest/dark_forest_1.png";
+import BackgroundLayer2 from "../assets/background/darkForest/dark_forest_2.png";
+import BackgroundLayer3 from "../assets/background/darkForest/dark_forest_3.png";
+import BackgroundLayer4 from "../assets/background/darkForest/dark_forest_4.png";
+import BackgroundLayer5 from "../assets/background/darkForest/dark_forest_5.png";
 
 //::::::::::::::::::::::::::::::::::PLAYER_ASSETS:::::::::::::::::::::::::::::::::::::://
 import PlayerAttack1 from "../assets/player/Attack 1.png";
@@ -48,7 +47,6 @@ export {
     BackgroundLayer3,
     BackgroundLayer4,
     BackgroundLayer5,
-    BackgroundLayer6,
 
     // PLAYER_ASSETS_EXPORT
     PlayerAttack1,

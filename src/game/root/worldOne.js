@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import Player from "./gameObjects/player/player.js";
 import MushRoomMonsterOne from "./gameObjects/monster/MushroomOneMonster/MushroomMonster.js";
 import MushRoomMonsterTwo from "./gameObjects/monster/MushroomTwoMonster/MushroomTwoMonster.js";
+import WorldOneMap from "./gameObjects/maps/worldOne.Map.js";
 import ParallaxBackground from "./gameObjects/maps/background.js";
 
 const keys = {
@@ -19,13 +20,18 @@ export default class WorldOne extends Phaser.Scene {
     Player.preload(this);
     MushRoomMonsterOne.preload(this);
     MushRoomMonsterTwo.preload(this);
-    ParallaxBackground.preload(this);
+    //ParallaxBackground.preload(this);
+    WorldOneMap.preload(this);
   }
 
   init() { }
 
   //Erzeugt Assets
   create() {
+    /**@type {WorldOneMap} */
+    this.WorldMap = new WorldOneMap(this);
+    this.WorldMap.create();
+
     this.player = new Player(this)
     this.player.create(100, 800)
 
@@ -39,11 +45,12 @@ export default class WorldOne extends Phaser.Scene {
     newMushroomTwo.create(800, 800)
     this.monsterPool.push(newMushroomTwo)
 
-    let newBgnLayer1 = new ParallaxBackground(this);
-    newBgnLayer1.create(0, 0)
+    //let newBgnLayer1 = new ParallaxBackground(this);
+    //newBgnLayer1.create(0, 0)
   }
 
   update(time, delta) {
+    this.WorldMap.update(time, delta)
     this.player.update(time, delta);
     //UPDATE LOOP FOR MONSTERS
     this.monsterPool.forEach((/**@type {MushRoomMonsterOne}*/monster) => {

@@ -10,7 +10,6 @@ import {
 } from "../../core/assetLoader.js";
 
 const BackgroundConf = [
-    { Path: BackgroundLayer1, ImageKey: "background-1", AnimKey: "background-1-anim",x: 0, y: 0, width: 524, height: 299},
     { Path: BackgroundLayer2, ImageKey: "background-2", AnimKey: "background-2-anim",x: 0, y: 0, width: 524, height: 246},
     { Path: BackgroundLayer3, ImageKey: "background-3", AnimKey: "background-3-anim",x: 0, y: 0, width: 499, height: 235},
     { Path: BackgroundLayer4, ImageKey: "background-4", AnimKey: "background-4-anim",x: 0, y: 0, width: 475, height: 323},

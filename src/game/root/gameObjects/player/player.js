@@ -91,7 +91,7 @@ export default class Player {
     this.init();
     this.createAnimation()
     this.player = this.scene.physics.add.sprite(x, y, null)
-    this.player.setScale(2)
+    this.player.setScale(4)
     this.player.setGravityY(0)// ZERO FOR TESTING
     this.player.anims.play("player-idle-anim")
   }

@@ -12,9 +12,7 @@ export default class MushroomOneMachine{
         switch(this.mushroomMonster.currentMoveState) {
             case this.mushroomMonster.MOVE_STATES.IDLE:
                 break
-
             case this.mushroomMonster.MOVE_STATES.MOVE:
-                
                 break
         }
     }

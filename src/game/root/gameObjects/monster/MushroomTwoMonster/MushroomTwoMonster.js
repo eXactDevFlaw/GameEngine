@@ -73,7 +73,7 @@ export default class MushRoomMonsterTwo {
         this.init();
         this.createAnimation()
         this.mushroom = this.scene.physics.add.sprite(x, y, null)
-        this.mushroom.setScale(2)
+        this.mushroom.setScale(4)
         this.mushroom.setGravityY(0)// ZERO FOR TESTING
         this.mushroom.anims.play("mushTwo-idle-anim")
     }

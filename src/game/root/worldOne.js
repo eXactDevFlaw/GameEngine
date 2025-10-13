@@ -27,7 +27,7 @@ export default class WorldOne extends Phaser.Scene {
   //Erzeugt Assets
   create() {
     this.player = new Player(this)
-    this.player.create(100, 100)
+    this.player.create(100, 800)
 
     let newMushroom = new MushRoomMonsterOne(this);
     newMushroom.getPlayerRef(this.player)

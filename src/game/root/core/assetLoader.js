@@ -4,6 +4,8 @@ import BackgroundLayer2 from "../assets/background/darkForest/dark_forest_2.png"
 import BackgroundLayer3 from "../assets/background/darkForest/dark_forest_3.png";
 import BackgroundLayer4 from "../assets/background/darkForest/dark_forest_4.png";
 import BackgroundLayer5 from "../assets/background/darkForest/dark_forest_5.png";
+import BackgroundLayer6 from "../assets/background/darkForest/Hills Layer 05.png";
+import BackgroundLayer7 from "../assets/background/darkForest/Hills Layer 06.png";
 
 //::::::::::::::::::::::::::::::::::PLAYER_ASSETS:::::::::::::::::::::::::::::::::::::://
 import PlayerAttack1 from "../assets/player/Attack 1.png";
@@ -47,6 +49,8 @@ export {
     BackgroundLayer3,
     BackgroundLayer4,
     BackgroundLayer5,
+    BackgroundLayer6,
+    BackgroundLayer7,
 
     // PLAYER_ASSETS_EXPORT
     PlayerAttack1,

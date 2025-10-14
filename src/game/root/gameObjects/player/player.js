@@ -17,11 +17,6 @@ import {
 
 } from "../../core/assetLoader.js";
 
-const keys = {
-  idle_spritesheet_key: "idle_spritesheet",
-  idle_animation_key: "idle_animation",
-};
-
 const PlayerConf = [
   { Path: PlayerAttack1, SpriteKey: "player-attack1", AnimKey: "player-attack1-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 4, rate: 5, rep: 0, },
   { Path: PlayerAttack2, SpriteKey: "player-attack2", AnimKey: "player-attack2-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 3, rate: 4, rep: 0, },
@@ -71,6 +66,30 @@ export default class Player {
     this.currentMoveState = this.MOVE_STATES.IDLE;
   }
 
+  getKeyboard() {
+    this.playerJump = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W); 
+    this.playerCrawl = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.playerMoveLeft = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.playerMoveRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.playerAttack = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
+  }
+
+  movementHandler() {
+    if (this.playerJump.isDown) {
+      console.log("ich springe");
+      this.player.anims.play("player-jump-anim")
+    } else {
+      this.MOVE_STATES.IDLE
+    }
+    if (this.playerCrawl.isDown) console.log("ich krieche");
+    if (this.playerMoveLeft.isDown) console.log("ich bewege mich nach links");
+    if (this.playerMoveRight.isDown){
+      console.log("ich bewege mich nach rechts");
+      
+    } 
+    if (this.playerAttack.isDown) console.log("ich attackiere dich!");
+  }
+
   createAnimation() {
     PlayerConf.forEach(({ SpriteKey, AnimKey, startFrame, endFrame, rate, rep }) => {
       if (!this.scene.anims.exists(AnimKey)) {
@@ -94,6 +113,7 @@ export default class Player {
     this.player.setScale(4)
     this.player.setGravityY(0)// ZERO FOR TESTING
     this.player.anims.play("player-idle-anim")
+    this.getKeyboard();
   }
 
   setCamera(width, height) {
@@ -103,5 +123,6 @@ export default class Player {
 
   update(time, delta) {
     this.playerStateMachine.moveMachine()
+    this.movementHandler()
   }
 }

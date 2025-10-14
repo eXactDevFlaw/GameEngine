@@ -44,12 +44,12 @@ const BackgroundLayer5Pos = [
 ];
 
 const BackgroundLayer6Pos = [
-    { x: 0, y: 0, depth: 0, scale: 4, ImageKey: "background-6" },
-    { x: 2048, y: 0, depth: 0, scale: 4, ImageKey: "background-6" },
-    { x: 4096, y: 0, depth: 0, scale: 4, ImageKey: "background-6" },
-    { x: 6144, y: 0, depth: 0, scale: 4, ImageKey: "background-6" },
-    { x: 8192, y: 0, depth: 0, scale: 4, ImageKey: "background-6" },
-    { x: 10240, y: 0, depth: 0, scale: 4, ImageKey: "background-6" },
+    { x: 0, y: 990, depth: 5, scale: 4, ImageKey: "background-6" },
+    { x: 2048, y: 990, depth: 5, scale: 4, ImageKey: "background-6" },
+    { x: 4096, y: 990, depth: 5, scale: 4, ImageKey: "background-6" },
+    { x: 6144, y: 990, depth: 5, scale: 4, ImageKey: "background-6" },
+    { x: 8192, y: 990, depth: 5, scale: 4, ImageKey: "background-6" },
+    { x: 10240, y: 990, depth: 5, scale: 4, ImageKey: "background-6" },
 ];
 
 const BackgroundLayer7Pos = [

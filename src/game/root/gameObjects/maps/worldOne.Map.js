@@ -95,7 +95,10 @@ export default class WorldOneMap {
 
         this.floor = this.scene.physics.add.staticGroup()
         BackgroundLayer6Pos.forEach(({ x, y, depth, scale, ImageKey}) => {
+            /**@type {Phaser.Physics.Arcade.Sprite} */
             let backImg = this.floor.create(x, y, ImageKey)
+            backImg.setDepth(depth)
+            backImg.setBodySize(2048, 50)
             backImg.setScale(scale)
         })
     }

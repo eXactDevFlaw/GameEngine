@@ -55,6 +55,7 @@ export default class WorldOneMap {
     create(x, y) {
         BackgroundLayer1Pos.forEach(({ x, y, depth, scale, ImageKey }) => {
             let backImg = this.scene.add.image(x, y, ImageKey)
+            backImg.depth = depth
             backImg.setScale(scale)
             backImg.origX = backImg.x
             backImg.origY = backImg.y
@@ -63,6 +64,7 @@ export default class WorldOneMap {
 
         BackgroundLayer2Pos.forEach(({ x, y, depth, scale, ImageKey }) => {
             let backImg = this.scene.add.image(x, y, ImageKey)
+            backImg.depth = depth
             backImg.setScale(scale)
             backImg.origX = backImg.x
             backImg.origY = backImg.y
@@ -71,6 +73,7 @@ export default class WorldOneMap {
 
         BackgroundLayer3Pos.forEach(({ x, y, depth, scale, ImageKey }) => {
             let backImg = this.scene.add.image(x, y, ImageKey)
+            backImg.depth = depth
             backImg.setScale(scale)
             backImg.origX = backImg.x
             backImg.origY = backImg.y
@@ -79,6 +82,7 @@ export default class WorldOneMap {
 
         BackgroundLayer4Pos.forEach(({ x, y, depth, scale, ImageKey }) => {
             let backImg = this.scene.add.image(x, y, ImageKey)
+            backImg.depth = depth
             backImg.setScale(scale)
             backImg.origX = backImg.x
             backImg.origY = backImg.y
@@ -87,6 +91,7 @@ export default class WorldOneMap {
 
         BackgroundLayer5Pos.forEach(({ x, y, depth, scale, ImageKey }) => {
             let backImg = this.scene.add.image(x, y, ImageKey)
+            backImg.depth = depth
             backImg.setScale(scale)
             backImg.origX = backImg.x
             backImg.origY = backImg.y
@@ -100,6 +105,15 @@ export default class WorldOneMap {
             backImg.setDepth(depth)
             backImg.setBodySize(2048, 50)
             backImg.setScale(scale)
+        })
+
+        BackgroundLayer7Pos.forEach(({ x, y, depth, scale, ImageKey }) => {
+            let backImg = this.scene.add.image(x, y, ImageKey)
+            backImg.depth = depth
+            backImg.setScale(scale)
+            backImg.origX = backImg.x
+            backImg.origY = backImg.y
+            this.parallaxLayer7Pool.push(backImg);
         })
     }
 

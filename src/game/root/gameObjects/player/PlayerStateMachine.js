@@ -28,11 +28,16 @@ export default class PlayerStateMachine {
                 }
                 break
             case this.player.MOVE_STATES.JUMP:
-                if (this.player.player.anims.currentAnim.key != "player-jump-anim"){
-                    this.player.player.anims.play("player-jump-anim")       
+                if (this.player.player.anims.currentAnim.key != "player-jump-anim") {
+                    this.player.player.anims.play("player-jump-anim")
                 }
                 if (this.player.player.anims.currentFrame.textureFrame >= 5) {
                     this.changeMoveState(this.player.MOVE_STATES.IDLE)
+                }
+                break
+            case this.player.MOVE_STATES.WALK:
+                if (this.player.player.anims.currentAnim.key != "player-walk-anim") {
+                    this.player.player.anims.play("player-walk-anim")
                 }
                 break
             case this.player.MOVE_STATES.RUN:
@@ -45,26 +50,23 @@ export default class PlayerStateMachine {
                     this.player.player.anims.play("player-defend-anim")
                 }
                 break
-            case this.player.MOVE_STATES.ATTACK_IN_RUN:
-                if (this.player.player.anims.currentAnim.key != "player-runattack-anim") {
-                    this.player.player.anims.play("player-runattack-anim")
-                }
-                if (this.player.player.anims.currentFrame.textureFrame >= 5) {
-                    this.changeMoveState(this.player.MOVE_STATES.RUN)
-                }
-                break
             case this.player.MOVE_STATES.NORMAL_ATTACK:
                 if (this.player.player.anims.currentAnim.key != "player-attack1-anim") {
                     this.player.player.anims.play("player-attack1-anim")
                 }
-                if (this.player.player.anims.currentFrame.textureFrame >= 4 && !this.isInDelay) {
-                    this.isInDelay = true
-                    this.player.scene.time.delayedCall(200, () => {
-                        this.isInDelay = false
-                        this.changeMoveState(this.player.MOVE_STATES.IDLE)
-                    })
+                if (this.player.player.anims.currentFrame.textureFrame >= 5) {
+                    this.changeMoveState(this.player.MOVE_STATES.IDLE)
                 }
                 break
+            case this.player.MOVE_STATES.RUN_ATTACK:
+                if (this.player.player.anims.currentAnim.key != "player-attack3-anim") {
+                    this.player.player.anims.play("player-attack3-anim")
+                }
+                if (this.player.player.anims.currentFrame.textureFrame >= 5) {
+                    this.changeMoveState(this.player.MOVE_STATES.IDLE)
+                }
+                break
+            default: return
         }
     }
 

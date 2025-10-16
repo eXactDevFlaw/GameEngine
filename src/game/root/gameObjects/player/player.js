@@ -24,7 +24,7 @@ const PlayerConf = [
   { Path: PlayerHurt, SpriteKey: "player-hurt", AnimKey: "player-hurt-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 3, rate: 4, rep: 0 },
   { Path: PlayerIdle, SpriteKey: "player-idle", AnimKey: "player-idle-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 6, rate: 7, rep: -1 },
   { Path: PlayerJump, SpriteKey: "player-jump", AnimKey: "player-jump-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 4, rate: 5, rep: 0 },
-  { Path: PlayerRun, SpriteKey: "player-run", AnimKey: "player-run-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 6, rate: 7, rep: -1 },
+  { Path: PlayerRun, SpriteKey: "player-run", AnimKey: "player-run-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 7, rate: 8, rep: -1 },
   { Path: PlayerWalk, SpriteKey: "player-walk", AnimKey: "player-walk-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 7, rate: 8, rep: -1 }
 ];
 
@@ -32,7 +32,7 @@ export default class Player {
   constructor(scene) {
     /**@type {WorldOne}*/
     this.scene = scene;
-    this.speed = 600;
+    this.speed = 300;
     this.colliderPool = [];
     this.isDead = false;
     this.currentMoveState = null;
@@ -40,17 +40,19 @@ export default class Player {
 
     this.attackJustPressed = false;
     this.isFloor = true;
+    this.isJump = false;
 
     this.CURRENT_MOVE_X = 0;
     this.CURRENT_MOVE_Y = 0;
 
     this.MOVE_STATES = {
       IDLE: 1,
-      RUN: 2,
-      JUMP: 3,
-      BLOCK: 4,
-      ATTACK_IN_RUN: 5,
-      NORMAL_ATTACK: 6
+      WALK: 2,
+      RUN: 3,
+      JUMP: 4,
+      BLOCK: 5,
+      NORMAL_ATTACK: 6,
+      RUN_ATTACK: 7,
     }
   }
 
@@ -79,6 +81,7 @@ export default class Player {
     this.playerMoveRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.playerAttack = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     this.playerBlock = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.playerRun = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
   }
 
   createAnimation() {
@@ -104,7 +107,6 @@ export default class Player {
     //CREATE_PLAYER_GAME_OBJECT
     this.player = this.scene.physics.add.sprite(x, y, null)
     this.player.depth = 3
-    this.player.setGravityY(50)// ZERO FOR TESTING
     this.player.anims.play("player-idle-anim")
     this.player.body.setSize(20, 30)
     this.player.body.setOffset(38, 31)
@@ -114,7 +116,7 @@ export default class Player {
     this.worldCollider = this.scene.physics.add.collider(this.scene.WorldMap.floor, this.player, () => {
       if (this.isDead) {
         this.worldCollider.destroy();
-      } 
+      }
       this.isFloor = true;
     });
 
@@ -131,41 +133,82 @@ export default class Player {
     if (this.playerAttack.isUp) {
       this.attackJustPressed = false
     }
-
-    if (this.cursorKeys.left.isDown || this.playerMoveLeft.isDown && this.playerBlock.isUp) {
-      this.CURRENT_MOVE_X = -1;
-      if (this.currentMoveState != this.MOVE_STATES.ATTACK_IN_RUN) {
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
+    if (!this.isJump) {
+      if (this.cursorKeys.left.isDown || this.playerMoveLeft.isDown && this.playerBlock.isUp) {
+        if (this.playerRun.isDown) {
+          this.CURRENT_MOVE_X = -2;
+          PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
+        } else {
+          this.CURRENT_MOVE_X = -1;
+          if (this.currentMoveState != this.MOVE_STATES.RUN_ATTACK) {
+            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
+          }
+        }
+      } else if (this.cursorKeys.right.isDown || this.playerMoveRight.isDown && this.playerBlock.isUp) {
+        if (this.playerRun.isDown) {
+          this.CURRENT_MOVE_X = 2;
+          PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
+        } else {
+          this.CURRENT_MOVE_X = 1;
+          if (this.currentMoveState != this.MOVE_STATES.RUN_ATTACK) {
+            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
+          }
+        }
+      } else {
+        if (this.currentMoveState != this.MOVE_STATES.NORMAL_ATTACK || this.currentMoveState != this.MOVE_STATES.RUN_ATTACK) {
+          this.CURRENT_MOVE_X = 0;
+          PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
+        }
       }
 
-    } else if (this.cursorKeys.right.isDown || this.playerMoveRight.isDown && this.playerBlock.isUp) {
-      this.CURRENT_MOVE_X = 1;
-      if (this.currentMoveState != this.MOVE_STATES.ATTACK_IN_RUN) {
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
+      if (this.playerAttack.isDown && this.currentMoveState == this.MOVE_STATES.WALK) {
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN_ATTACK)
       }
 
-    } else if (this.playerAttack.isDown && !this.attackJustPressed && this.currentMoveState != this.MOVE_STATES.RUN) {
-      this.CURRENT_MOVE_X = 0;
-      this.attackJustPressed = true
-      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
-
-    } else if (this.playerJump.isDown) {
-      console.log(this.player.body.velocity)
-      // PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
-    }
-    
-    else {
-      if (this.currentMoveState != this.MOVE_STATES.NORMAL_ATTACK) {
+      if (this.playerAttack.isDown && !this.attackJustPressed && this.currentMoveState != this.MOVE_STATES.WALK) {
         this.CURRENT_MOVE_X = 0;
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
+        this.attackJustPressed = true
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
+      }
+
+      if (Phaser.Input.Keyboard.JustDown(this.playerJump) && this.isFloor) {
+        this.isFloor = false;
+        this.isJump = true;
+        this.player.setVelocityY(-600);
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP);
+      }
+
+      if (this.playerBlock.isDown) {
+        this.CURRENT_MOVE_X = 0;
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.BLOCK)
       }
     }
 
-    if (this.playerBlock.isDown) {
-      this.CURRENT_MOVE_X = 0;
-      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.BLOCK)
+    if (this.isJump) {
+      if (this.isFloor) {
+        this.isJump = false;
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
+        return
+      }
+      if (this.playerMoveLeft.isDown || this.cursorKeys.left.isDown) {
+        if(this.playerRun.isDown) {
+          this.CURRENT_MOVE_X = -2
+        } else {
+          this.CURRENT_MOVE_X = -1
+        }
+      } else if (this.playerMoveRight.isDown || this.cursorKeys.right.isDown) {
+        if (this.playerRun.isDown) {
+          this.CURRENT_MOVE_X = 2
+        } else {
+          this.CURRENT_MOVE_X = 1
+        }
+      } else {
+        this.CURRENT_MOVE_X = 0
+      }
+
     }
   }
+
 
 
   flipX() {

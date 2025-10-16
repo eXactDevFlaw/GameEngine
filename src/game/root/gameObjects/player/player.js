@@ -25,7 +25,7 @@ const PlayerConf = [
   { Path: PlayerDefend, SpriteKey: "player-defend", AnimKey: "player-defend-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 4, rate: 5, rep: 0 },
   { Path: PlayerHurt, SpriteKey: "player-hurt", AnimKey: "player-hurt-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 1, rate: 2, rep: 0 },
   { Path: PlayerIdle, SpriteKey: "player-idle", AnimKey: "player-idle-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 3, rate: 4, rep: -1 },
-  { Path: PlayerJump, SpriteKey: "player-jump", AnimKey: "player-jump-anim", frameWidth: 82, frameHeight: 86, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
+  { Path: PlayerJump, SpriteKey: "player-jump", AnimKey: "player-jump-anim", frameWidth: 80, frameHeight: 86, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
   { Path: PlayerProtect, SpriteKey: "player-protect", AnimKey: "player-protect-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 0, rate: 1, rep: 0 },
   { Path: PlayerRun, SpriteKey: "player-run", AnimKey: "player-run-anim", frameWidth: 70, frameHeight: 86, startFrame: 0, endFrame: 6, rate: 7, rep: -1 },
   { Path: PlayerRunAttack, SpriteKey: "player-runattack", AnimKey: "player-runattack-anim", frameWidth: 73, frameHeight: 86, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
@@ -156,7 +156,12 @@ export default class Player {
       this.attackJustPressed = true
       PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
 
-    } else {
+    } else if (this.playerJump.isDown && !this.jumpJustPresses) {
+      this.jumpJustPresses = true;
+      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
+    }
+    
+    else {
       if (this.currentMoveState != this.MOVE_STATES.NORMAL_ATTACK) {
         this.CURRENT_MOVE_X = 0;
         PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
@@ -173,9 +178,7 @@ export default class Player {
       PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.ATTACK_IN_RUN)
     }
 
-    if (this.playerJump.isDown && !this.attackJustPressed) {
-      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
-    }
+
   }
 
 

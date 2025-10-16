@@ -31,12 +31,9 @@ export default class PlayerStateMachine {
                 if (this.player.player.anims.currentAnim.key != "player-jump-anim"){
                     this.player.player.anims.play("player-jump-anim")       
                 }
-                if (this.player.player.anims.currentFrame.textureFrame >= 5 && !this.isInDelay) {
-                    this.isInDelay = true
-                    this.player.scene.time.delayedCall(200, () => {
-                        this.isInDelay = false
-                        this.changeMoveState(this.player.MOVE_STATES.IDLE)
-                    })
+                console.log(this.player.player.anims.currentFrame.textureFrame)
+                if (this.player.player.anims.currentFrame.textureFrame >= 5) {
+                    this.changeMoveState(this.player.MOVE_STATES.IDLE)
                 }
                 break
             case this.player.MOVE_STATES.RUN:

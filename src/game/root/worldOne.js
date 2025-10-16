@@ -32,19 +32,19 @@ export default class WorldOne extends Phaser.Scene {
 
     /**@type {Player} */
     this.player = new Player(this)
-    this.player.create(100, 799)
+    this.player.create(300, 799)
 
-    /**@type {MushRoomMonsterOne} */
-    let newMushroom = new MushRoomMonsterOne(this);
-    newMushroom.getPlayerRef(this.player)
-    newMushroom.create(400, 400)
-    this.monsterPool.push(newMushroom)
+    // /**@type {MushRoomMonsterOne} */
+    // let newMushroom = new MushRoomMonsterOne(this);
+    // newMushroom.getPlayerRef(this.player)
+    // newMushroom.create(400, 400)
+    // this.monsterPool.push(newMushroom)
 
-    /**@type {MushRoomMonsterTwo} */
-    let newMushroomTwo = new MushRoomMonsterTwo(this);
-    newMushroomTwo.getPlayerRef(this.player)
-    newMushroomTwo.create(800, 800)
-    this.monsterPool.push(newMushroomTwo)
+    // /**@type {MushRoomMonsterTwo} */
+    // let newMushroomTwo = new MushRoomMonsterTwo(this);
+    // newMushroomTwo.getPlayerRef(this.player)
+    // newMushroomTwo.create(800, 800)
+    // this.monsterPool.push(newMushroomTwo)
   }
 
   update(time, delta) {

@@ -1,10 +1,18 @@
 import Player from "./player.js";
 
 export default class PlayerStateMachine {
+    /**@type {PlayerStateMachine} */
+    static Instance = null;
     constructor(player) {
         /**@type {Player} */
         this.player = player;
         this.isInDelay = false;
+
+        if (PlayerStateMachine.Instance != null) {
+            return PlayerStateMachine.Instance;
+        } else {
+            PlayerStateMachine.Instance = this;
+        }
     }
 
     changeMoveState(newState) {

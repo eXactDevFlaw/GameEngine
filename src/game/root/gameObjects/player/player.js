@@ -71,7 +71,7 @@ export default class Player {
   }
 
   init() {
-    this.playerStateMachine = new PlayerStateMachine(this);
+    new PlayerStateMachine(this);
     this.currentMoveState = this.MOVE_STATES.IDLE;
   }
 
@@ -114,8 +114,6 @@ export default class Player {
     this.player.body.setOffset(36, 45.5)
     this.player.setScale(4)
 
-    this.playerStateMachine = new PlayerStateMachine(this);
-
     //World Collider!!!!
     this.worldCollider = this.scene.physics.add.collider(this.scene.WorldMap.floor, this.player, () => {
       if (this.isDead) {
@@ -144,40 +142,39 @@ export default class Player {
     if (this.cursorKeys.left.isDown || this.playerMoveLeft.isDown && this.playerBlock.isUp) {
       this.CURRENT_MOVE_X = -1;
       if (this.currentMoveState != this.MOVE_STATES.ATTACK_IN_RUN) {
-        this.playerStateMachine.changeMoveState(this.MOVE_STATES.RUN)
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
       }
 
     } else if (this.cursorKeys.right.isDown || this.playerMoveRight.isDown && this.playerBlock.isUp) {
       this.CURRENT_MOVE_X = 1;
       if (this.currentMoveState != this.MOVE_STATES.ATTACK_IN_RUN) {
-        this.playerStateMachine.changeMoveState(this.MOVE_STATES.RUN)
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
       }
 
     } else if (this.playerAttack.isDown && !this.attackJustPressed && this.currentMoveState != this.MOVE_STATES.RUN) {
       this.CURRENT_MOVE_X = 0;
       this.attackJustPressed = true
-      this.playerStateMachine.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
+      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
 
     } else {
       if (this.currentMoveState != this.MOVE_STATES.NORMAL_ATTACK) {
         this.CURRENT_MOVE_X = 0;
-        this.playerStateMachine.changeMoveState(this.MOVE_STATES.IDLE)
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
       }
     }
 
     if (this.playerBlock.isDown) {
       this.CURRENT_MOVE_X = 0;
-      this.playerStateMachine.changeMoveState(this.MOVE_STATES.BLOCK)
+      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.BLOCK)
     }
 
     if (this.playerAttack.isDown && !this.attackJustPressed && this.currentMoveState == this.MOVE_STATES.RUN) {
       this.attackJustPressed = true
-      this.playerStateMachine.changeMoveState(this.MOVE_STATES.ATTACK_IN_RUN)
+      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.ATTACK_IN_RUN)
     }
 
-    if (this.playerJump.isDown && !this.jumpJustPresses && this.currentMoveState != this.MOVE_STATES.JUMP) {
-      this.jumpJustPresses = true
-      this.playerStateMachine.changeMoveState(this.MOVE_STATES.JUMP)
+    if (this.playerJump.isDown && !this.attackJustPressed) {
+      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
     }
   }
 
@@ -195,7 +192,6 @@ export default class Player {
     this.flipX();
 
     this.player.setVelocityX(this.CURRENT_MOVE_X * this.speed)
-    this.playerStateMachine.update(time, delta)
-
+    PlayerStateMachine.Instance.update(time, delta)
   }
 }

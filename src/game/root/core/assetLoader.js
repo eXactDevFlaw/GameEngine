@@ -8,18 +8,16 @@ import BackgroundLayer6 from "../assets/background/darkForest/Hills Layer 05.png
 import BackgroundLayer7 from "../assets/background/darkForest/Hills Layer 06.png";
 
 //::::::::::::::::::::::::::::::::::PLAYER_ASSETS:::::::::::::::::::::::::::::::::::::://
-import PlayerAttack1 from "../assets/player/Attack 1.png";
-import PlayerAttack2 from "../assets/player/Attack 2.png";
-import PlayerAttack3 from "../assets/player/Attack 3.png";
-import PlayerDead from "../assets/player/Dead.png";
-import PlayerDefend from "../assets/player/Defend.png";
-import PlayerHurt from "../assets/player/Hurt.png";
-import PlayerIdle from "../assets/player/Idle.png";
-import PlayerJump from "../assets/player/Jump.png";
-import PlayerProtect from "../assets/player/Protect.png";
-import PlayerRun from "../assets/player/Run.png";
-import PlayerRunAttack from "../assets/player/Run+Attack.png";
-import PlayerWalk from "../assets/player/Walk.png";
+import PlayerAttack1 from "../assets/player/ATTACK_1.png";
+import PlayerAttack2 from "../assets/player/ATTACK_2.png";
+import PlayerAttack3 from "../assets/player/ATTACK_3.png";
+import PlayerDead from "../assets/player/DEATH.png";
+import PlayerDefend from "../assets/player/DEFEND.png";
+import PlayerHurt from "../assets/player/HURT.png";
+import PlayerIdle from "../assets/player/IDLE.png";
+import PlayerJump from "../assets/player/JUMP.png";
+import PlayerRun from "../assets/player/RUN.png";
+import PlayerWalk from "../assets/player/WALK.png";
 
 //::::::::::::::::::::::::::::::::::ENEMY_ASSETS:::::::::::::::::::::::::::::::::::::://
 
@@ -61,9 +59,7 @@ export {
     PlayerHurt,
     PlayerIdle,
     PlayerJump,
-    PlayerProtect,
     PlayerRun,
-    PlayerRunAttack,
     PlayerWalk,
 
     // MUSHROOM_ONE_ASSETS_EXPORT

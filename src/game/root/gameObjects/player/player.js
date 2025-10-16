@@ -11,25 +11,21 @@ import {
   PlayerHurt,
   PlayerIdle,
   PlayerJump,
-  PlayerProtect,
   PlayerRun,
-  PlayerRunAttack,
   PlayerWalk,
 } from "../../core/assetLoader.js";
 
 const PlayerConf = [
-  { Path: PlayerAttack1, SpriteKey: "player-attack1", AnimKey: "player-attack1-anim", frameWidth: 84, frameHeight: 86, startFrame: 0, endFrame: 4, rate: 5, rep: 0, },
-  { Path: PlayerAttack2, SpriteKey: "player-attack2", AnimKey: "player-attack2-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 3, rate: 4, rep: 0, },
-  { Path: PlayerAttack3, SpriteKey: "player-attack3", AnimKey: "player-attack3-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 3, rate: 4, rep: 0 },
-  { Path: PlayerDead, SpriteKey: "player-dead", AnimKey: "player-dead-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
-  { Path: PlayerDefend, SpriteKey: "player-defend", AnimKey: "player-defend-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 4, rate: 5, rep: 0 },
-  { Path: PlayerHurt, SpriteKey: "player-hurt", AnimKey: "player-hurt-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 1, rate: 2, rep: 0 },
-  { Path: PlayerIdle, SpriteKey: "player-idle", AnimKey: "player-idle-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 3, rate: 4, rep: -1 },
-  { Path: PlayerJump, SpriteKey: "player-jump", AnimKey: "player-jump-anim", frameWidth: 80, frameHeight: 86, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
-  { Path: PlayerProtect, SpriteKey: "player-protect", AnimKey: "player-protect-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 0, rate: 1, rep: 0 },
-  { Path: PlayerRun, SpriteKey: "player-run", AnimKey: "player-run-anim", frameWidth: 70, frameHeight: 86, startFrame: 0, endFrame: 6, rate: 7, rep: -1 },
-  { Path: PlayerRunAttack, SpriteKey: "player-runattack", AnimKey: "player-runattack-anim", frameWidth: 73, frameHeight: 86, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
-  { Path: PlayerWalk, SpriteKey: "player-walk", AnimKey: "player-walk-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 7, rate: 8, rep: -1 }
+  { Path: PlayerAttack1, SpriteKey: "player-attack1", AnimKey: "player-attack1-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 5, rate: 6, rep: 0, },
+  { Path: PlayerAttack2, SpriteKey: "player-attack2", AnimKey: "player-attack2-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 4, rate: 5, rep: 0, },
+  { Path: PlayerAttack3, SpriteKey: "player-attack3", AnimKey: "player-attack3-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
+  { Path: PlayerDead, SpriteKey: "player-dead", AnimKey: "player-dead-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 11, rate: 12, rep: 0 },
+  { Path: PlayerDefend, SpriteKey: "player-defend", AnimKey: "player-defend-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
+  { Path: PlayerHurt, SpriteKey: "player-hurt", AnimKey: "player-hurt-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 3, rate: 4, rep: 0 },
+  { Path: PlayerIdle, SpriteKey: "player-idle", AnimKey: "player-idle-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 6, rate: 7, rep: -1 },
+  { Path: PlayerJump, SpriteKey: "player-jump", AnimKey: "player-jump-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 4, rate: 5, rep: 0 },
+  { Path: PlayerRun, SpriteKey: "player-run", AnimKey: "player-run-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 6, rate: 7, rep: -1 },
+  { Path: PlayerWalk, SpriteKey: "player-walk", AnimKey: "player-walk-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 7, rate: 8, rep: -1 }
 ];
 
 export default class Player {
@@ -43,7 +39,7 @@ export default class Player {
     this.worldCollider = null;
 
     this.attackJustPressed = false;
-    this.jumpJustPresses = false;
+    this.isFloor = true;
 
     this.CURRENT_MOVE_X = 0;
     this.CURRENT_MOVE_Y = 0;
@@ -110,15 +106,16 @@ export default class Player {
     this.player.depth = 3
     this.player.setGravityY(50)// ZERO FOR TESTING
     this.player.anims.play("player-idle-anim")
-    this.player.body.setSize(15, 40)
-    this.player.body.setOffset(36, 45.5)
-    this.player.setScale(4)
+    this.player.body.setSize(20, 30)
+    this.player.body.setOffset(38, 31)
+    this.player.setScale(5)
 
     //World Collider!!!!
     this.worldCollider = this.scene.physics.add.collider(this.scene.WorldMap.floor, this.player, () => {
       if (this.isDead) {
         this.worldCollider.destroy();
-      }
+      } 
+      this.isFloor = true;
     });
 
     this.scene.cameras.main.startFollow(this.player, false, 0.1, 0.1)
@@ -133,10 +130,6 @@ export default class Player {
   controllInputsCheck() {
     if (this.playerAttack.isUp) {
       this.attackJustPressed = false
-    }
-
-    if (this.playerJump.isUp) {
-      this.jumpJustPresses = false
     }
 
     if (this.cursorKeys.left.isDown || this.playerMoveLeft.isDown && this.playerBlock.isUp) {
@@ -156,9 +149,9 @@ export default class Player {
       this.attackJustPressed = true
       PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
 
-    } else if (this.playerJump.isDown && !this.jumpJustPresses) {
-      this.jumpJustPresses = true;
-      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
+    } else if (this.playerJump.isDown) {
+      console.log(this.player.body.velocity)
+      // PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
     }
     
     else {
@@ -172,13 +165,6 @@ export default class Player {
       this.CURRENT_MOVE_X = 0;
       PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.BLOCK)
     }
-
-    if (this.playerAttack.isDown && !this.attackJustPressed && this.currentMoveState == this.MOVE_STATES.RUN) {
-      this.attackJustPressed = true
-      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.ATTACK_IN_RUN)
-    }
-
-
   }
 
 

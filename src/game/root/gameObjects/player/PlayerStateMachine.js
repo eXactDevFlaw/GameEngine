@@ -31,7 +31,6 @@ export default class PlayerStateMachine {
                 if (this.player.player.anims.currentAnim.key != "player-jump-anim"){
                     this.player.player.anims.play("player-jump-anim")       
                 }
-                console.log(this.player.player.anims.currentFrame.textureFrame)
                 if (this.player.player.anims.currentFrame.textureFrame >= 5) {
                     this.changeMoveState(this.player.MOVE_STATES.IDLE)
                 }
@@ -42,8 +41,8 @@ export default class PlayerStateMachine {
                 }
                 break
             case this.player.MOVE_STATES.BLOCK:
-                if (this.player.player.anims.currentAnim.key != "player-protect-anim") {
-                    this.player.player.anims.play("player-protect-anim")
+                if (this.player.player.anims.currentAnim.key != "player-defend-anim") {
+                    this.player.player.anims.play("player-defend-anim")
                 }
                 break
             case this.player.MOVE_STATES.ATTACK_IN_RUN:

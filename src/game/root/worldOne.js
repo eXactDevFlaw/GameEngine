@@ -32,7 +32,7 @@ export default class WorldOne extends Phaser.Scene {
 
     /**@type {Player} */
     this.player = new Player(this)
-    this.player.create(300, 799)
+    this.player.create(300, 870)
 
     // /**@type {MushRoomMonsterOne} */
     // let newMushroom = new MushRoomMonsterOne(this);

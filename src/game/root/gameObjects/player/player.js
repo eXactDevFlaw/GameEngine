@@ -25,7 +25,7 @@ const PlayerConf = [
   { Path: PlayerDefend, SpriteKey: "player-defend", AnimKey: "player-defend-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 4, rate: 5, rep: 0 },
   { Path: PlayerHurt, SpriteKey: "player-hurt", AnimKey: "player-hurt-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 1, rate: 2, rep: 0 },
   { Path: PlayerIdle, SpriteKey: "player-idle", AnimKey: "player-idle-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 3, rate: 4, rep: -1 },
-  { Path: PlayerJump, SpriteKey: "player-jump", AnimKey: "player-jump-anim", frameWidth: 80, frameHeight: 86, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
+  { Path: PlayerJump, SpriteKey: "player-jump", AnimKey: "player-jump-anim", frameWidth: 82, frameHeight: 86, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
   { Path: PlayerProtect, SpriteKey: "player-protect", AnimKey: "player-protect-anim", frameWidth: 67, frameHeight: 86, startFrame: 0, endFrame: 0, rate: 1, rep: 0 },
   { Path: PlayerRun, SpriteKey: "player-run", AnimKey: "player-run-anim", frameWidth: 70, frameHeight: 86, startFrame: 0, endFrame: 6, rate: 7, rep: -1 },
   { Path: PlayerRunAttack, SpriteKey: "player-runattack", AnimKey: "player-runattack-anim", frameWidth: 73, frameHeight: 86, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
@@ -43,6 +43,7 @@ export default class Player {
     this.worldCollider = null;
 
     this.attackJustPressed = false;
+    this.jumpJustPresses = false;
 
     this.CURRENT_MOVE_X = 0;
     this.CURRENT_MOVE_Y = 0;
@@ -136,6 +137,10 @@ export default class Player {
       this.attackJustPressed = false
     }
 
+    if (this.playerJump.isUp) {
+      this.jumpJustPresses = false
+    }
+
     if (this.cursorKeys.left.isDown || this.playerMoveLeft.isDown && this.playerBlock.isUp) {
       this.CURRENT_MOVE_X = -1;
       if (this.currentMoveState != this.MOVE_STATES.ATTACK_IN_RUN) {
@@ -170,7 +175,8 @@ export default class Player {
       this.playerStateMachine.changeMoveState(this.MOVE_STATES.ATTACK_IN_RUN)
     }
 
-    if (this.playerJump.isDown && !this.attackJustPressed) {
+    if (this.playerJump.isDown && !this.jumpJustPresses && this.currentMoveState != this.MOVE_STATES.JUMP) {
+      this.jumpJustPresses = true
       this.playerStateMachine.changeMoveState(this.MOVE_STATES.JUMP)
     }
   }

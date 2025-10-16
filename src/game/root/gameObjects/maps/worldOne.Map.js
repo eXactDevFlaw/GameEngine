@@ -119,23 +119,23 @@ export default class WorldOneMap {
 
     update(time, delta) {
         this.parallaxLayer1Pool.forEach((image) => {
-            image.x += delta * 0.18;
+            image.x += 0;
         })
 
         this.parallaxLayer2Pool.forEach((image) => {
-            image.x += delta * 0.16;
+            image.x += 0;
         })
 
         this.parallaxLayer3Pool.forEach((image) => {
-            image.x += delta * 0.14;
+            image.x += 0;
         })
 
         this.parallaxLayer4Pool.forEach((image) => {
-            image.x += delta * 0.12;
+            image.x += 0 ;
         })
 
         this.parallaxLayer5Pool.forEach((image) => {
-            image.x -= delta * 0.1;
+            image.x -= 0 ;
         })
     }
 }

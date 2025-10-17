@@ -39,6 +39,10 @@ export default class Player {
     this.worldCollider = null;
 
     this.attackJustPressed = false;
+    this.isInAttack = false;
+    this.isInRunAttk = false;
+
+
     this.isFloor = true;
     this.isJump = false;
 
@@ -130,86 +134,51 @@ export default class Player {
   }
 
   controllInputsCheck() {
-    if (this.playerAttack.isUp) {
-      this.attackJustPressed = false
-    }
     if (!this.isJump) {
-      if (this.cursorKeys.left.isDown || this.playerMoveLeft.isDown && this.playerBlock.isUp) {
-        if (this.playerRun.isDown) {
-          this.CURRENT_MOVE_X = -2;
-          PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
-        } else {
-          this.CURRENT_MOVE_X = -1;
-          if (this.currentMoveState != this.MOVE_STATES.RUN_ATTACK) {
-            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
-          }
-        }
-      } else if (this.cursorKeys.right.isDown || this.playerMoveRight.isDown && this.playerBlock.isUp) {
-        if (this.playerRun.isDown) {
-          this.CURRENT_MOVE_X = 2;
-          PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
-        } else {
-          this.CURRENT_MOVE_X = 1;
-          if (this.currentMoveState != this.MOVE_STATES.RUN_ATTACK) {
-            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
-          }
-        }
-      } else if (this.playerAttack.isDown) {
-        this.CURRENT_MOVE_X = 0;
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
-      } else {
-        if (this.currentMoveState != this.MOVE_STATES.NORMAL_ATTACK || this.currentMoveState != this.MOVE_STATES.RUN_ATTACK) {
-          this.CURRENT_MOVE_X = 0;
-          PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
-          console.log("wir sind idle default")
-        }
-      }
-      
-      if (this.playerAttack.isDown && this.currentMoveState == this.MOVE_STATES.WALK) {
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN_ATTACK)
-      }
-
-
-
-      if (Phaser.Input.Keyboard.JustDown(this.playerJump) && this.isFloor) {
-        this.isFloor = false;
-        this.isJump = true;
-        this.player.setVelocityY(-600);
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP);
-      }
-
-      if (this.playerBlock.isDown) {
-        this.CURRENT_MOVE_X = 0;
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.BLOCK)
-      }
+      this.GroundHandler();
     }
 
     if (this.isJump) {
-      if (this.isFloor) {
-        this.isJump = false;
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
-        return
-      }
-      if (this.playerMoveLeft.isDown || this.cursorKeys.left.isDown) {
-        if (this.playerRun.isDown) {
-          this.CURRENT_MOVE_X = -2
-        } else {
-          this.CURRENT_MOVE_X = -1
-        }
-      } else if (this.playerMoveRight.isDown || this.cursorKeys.right.isDown) {
-        if (this.playerRun.isDown) {
-          this.CURRENT_MOVE_X = 2
-        } else {
-          this.CURRENT_MOVE_X = 1
-        }
-      } else {
-        this.CURRENT_MOVE_X = 0
-      }
-
+      this.JumpHandler();
     }
   }
 
+  GroundHandler() {
+    if (!this.isInAttack) {
+        if (this.playerMoveLeft.isDown || this.cursorKeys.left.isDown) {
+          this.CURRENT_MOVE_X = -1
+          if (!this.isInRunAttk) {
+            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
+          }
+        } else if (this.playerMoveRight.isDown || this.cursorKeys.right.isDown) {
+          this.CURRENT_MOVE_X = 1
+          if (!this.isInRunAttk) {
+            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
+          }
+        } else {
+          this.CURRENT_MOVE_X = 0
+          if (!this.isInRunAttk) {
+            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
+          }
+        };
+      }
 
+      if (this.playerAttack.isDown && this.currentMoveState != this.MOVE_STATES.WALK && this.currentMoveState != this.MOVE_STATES.RUN && !this.isInRunAttk) {
+        this.attackJustPressed = true;
+        this.isInAttack = true
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
+      }
+
+      if (this.playerAttack.isDown && this.currentMoveState == this.MOVE_STATES.RUN || this.playerAttack.isDown && this.currentMoveState == this.MOVE_STATES.WALK) {
+        this.attackJustPressed = true;
+        this.isInRunAttk = true
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN_ATTACK);
+      }
+  }
+
+  JumpHandler() {
+
+  }
 
   flipX() {
     if (this.CURRENT_MOVE_X < 0) {

@@ -20,13 +20,15 @@ export default class PlayerStateMachine {
     }
 
     moveMachine() {
-        this.player.player.setVelocityX(this.player.CURRENT_MOVE_X * this.player.speed)
+        
         switch (this.player.currentMoveState) {
+
             case this.player.MOVE_STATES.IDLE:
                 if (this.player.player.anims.currentAnim.key != "player-idle-anim") {
                     this.player.player.anims.play("player-idle-anim")
                 }
                 break
+
             case this.player.MOVE_STATES.JUMP:
                 if (this.player.player.anims.currentAnim.key != "player-jump-anim") {
                     this.player.player.anims.play("player-jump-anim")
@@ -35,37 +37,46 @@ export default class PlayerStateMachine {
                     this.changeMoveState(this.player.MOVE_STATES.IDLE)
                 }
                 break
+
             case this.player.MOVE_STATES.WALK:
                 if (this.player.player.anims.currentAnim.key != "player-walk-anim") {
                     this.player.player.anims.play("player-walk-anim")
                 }
                 break
+
             case this.player.MOVE_STATES.RUN:
                 if (this.player.player.anims.currentAnim.key != "player-run-anim") {
                     this.player.player.anims.play("player-run-anim")
                 }
                 break
+
             case this.player.MOVE_STATES.BLOCK:
                 if (this.player.player.anims.currentAnim.key != "player-defend-anim") {
                     this.player.player.anims.play("player-defend-anim")
                 }
                 break
+
             case this.player.MOVE_STATES.NORMAL_ATTACK:
                 if (this.player.player.anims.currentAnim.key != "player-attack1-anim") {
                     this.player.player.anims.play("player-attack1-anim")
                 }
                 if (this.player.player.anims.currentFrame.textureFrame >= 5) {
                     this.changeMoveState(this.player.MOVE_STATES.IDLE)
+                    this.player.isInAttack = false;
                 }
                 break
+
             case this.player.MOVE_STATES.RUN_ATTACK:
                 if (this.player.player.anims.currentAnim.key != "player-attack3-anim") {
                     this.player.player.anims.play("player-attack3-anim")
                 }
+
                 if (this.player.player.anims.currentFrame.textureFrame >= 5) {
                     this.changeMoveState(this.player.MOVE_STATES.IDLE)
+                    this.player.isInRunAttk = false;
                 }
                 break
+
             default: return
         }
     }

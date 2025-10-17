@@ -154,22 +154,22 @@ export default class Player {
             PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
           }
         }
+      } else if (this.playerAttack.isDown) {
+        this.CURRENT_MOVE_X = 0;
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
       } else {
         if (this.currentMoveState != this.MOVE_STATES.NORMAL_ATTACK || this.currentMoveState != this.MOVE_STATES.RUN_ATTACK) {
           this.CURRENT_MOVE_X = 0;
           PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
+          console.log("wir sind idle default")
         }
       }
-
+      
       if (this.playerAttack.isDown && this.currentMoveState == this.MOVE_STATES.WALK) {
         PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN_ATTACK)
       }
 
-      if (this.playerAttack.isDown && !this.attackJustPressed && this.currentMoveState != this.MOVE_STATES.WALK) {
-        this.CURRENT_MOVE_X = 0;
-        this.attackJustPressed = true
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
-      }
+
 
       if (Phaser.Input.Keyboard.JustDown(this.playerJump) && this.isFloor) {
         this.isFloor = false;
@@ -191,7 +191,7 @@ export default class Player {
         return
       }
       if (this.playerMoveLeft.isDown || this.cursorKeys.left.isDown) {
-        if(this.playerRun.isDown) {
+        if (this.playerRun.isDown) {
           this.CURRENT_MOVE_X = -2
         } else {
           this.CURRENT_MOVE_X = -1

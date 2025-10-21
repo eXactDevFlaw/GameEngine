@@ -145,39 +145,64 @@ export default class Player {
 
   GroundHandler() {
     if (!this.isInAttack) {
-        if (this.playerMoveLeft.isDown || this.cursorKeys.left.isDown) {
+      if (this.playerMoveLeft.isDown || this.cursorKeys.left.isDown && this.playerBlock.isUp) {
+        if (this.playerMoveLeft.isDown && this.playerRun.isDown) {
+          this.CURRENT_MOVE_X = -2
+          if (!this.isInRunAttk){
+            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
+          }
+        } else {
           this.CURRENT_MOVE_X = -1
           if (!this.isInRunAttk) {
             PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
           }
-        } else if (this.playerMoveRight.isDown || this.cursorKeys.right.isDown) {
+        }
+
+      } else if (this.playerMoveRight.isDown || this.cursorKeys.right.isDown && this.playerBlock.isUp) {
+        if (this.playerMoveRight.isDown && this.playerRun.isDown){
+          this.CURRENT_MOVE_X = 2
+          if (!this.isInRunAttk) {
+            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
+          }
+        } else {
           this.CURRENT_MOVE_X = 1
           if (!this.isInRunAttk) {
             PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
           }
-        } else {
-          this.CURRENT_MOVE_X = 0
-          if (!this.isInRunAttk) {
-            PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
-          }
-        };
+        }
+
+      } else {
+        this.CURRENT_MOVE_X = 0
+        if (!this.isInRunAttk) {
+          PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
+        }
       }
 
-      if (this.playerAttack.isDown && this.currentMoveState != this.MOVE_STATES.WALK && this.currentMoveState != this.MOVE_STATES.RUN && !this.isInRunAttk) {
-        this.attackJustPressed = true;
-        this.isInAttack = true
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
-      }
+      if (this.playerBlock.isDown) {
+        this.CURRENT_MOVE_X = 0;
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.BLOCK)
+      };
+    }
 
-      if (this.playerAttack.isDown && this.currentMoveState == this.MOVE_STATES.RUN || this.playerAttack.isDown && this.currentMoveState == this.MOVE_STATES.WALK) {
-        this.attackJustPressed = true;
-        this.isInRunAttk = true
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN_ATTACK);
-      }
+    if (this.playerAttack.isDown && this.currentMoveState != this.MOVE_STATES.WALK && this.currentMoveState != this.MOVE_STATES.RUN && !this.isInRunAttk) {
+      this.attackJustPressed = true;
+      this.isInAttack = true
+      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.NORMAL_ATTACK)
+    }
+
+    if (this.playerAttack.isDown && this.currentMoveState == this.MOVE_STATES.RUN || this.playerAttack.isDown && this.currentMoveState == this.MOVE_STATES.WALK) {
+      this.attackJustPressed = true;
+      this.isInRunAttk = true
+      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN_ATTACK);
+    }
   }
 
   JumpHandler() {
-
+    if(this.playerJump.isdown && !this.isInAttack || !this.isInRunAttk){
+      this.isJump = true
+      console.log("ich springe")
+      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
+    }
   }
 
   flipX() {

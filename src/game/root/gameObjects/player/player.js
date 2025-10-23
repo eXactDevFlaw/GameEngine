@@ -23,7 +23,7 @@ const PlayerConf = [
   { Path: PlayerDefend, SpriteKey: "player-defend", AnimKey: "player-defend-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 5, rate: 6, rep: 0 },
   { Path: PlayerHurt, SpriteKey: "player-hurt", AnimKey: "player-hurt-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 3, rate: 4, rep: 0 },
   { Path: PlayerIdle, SpriteKey: "player-idle", AnimKey: "player-idle-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 6, rate: 7, rep: -1 },
-  { Path: PlayerJump, SpriteKey: "player-jump", AnimKey: "player-jump-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 4, rate: 5, rep: 0 },
+  { Path: PlayerJump, SpriteKey: "player-jump", AnimKey: "player-jump-anim", frameWidth: 34, frameHeight: 37, startFrame: 0, endFrame: 2, rate: 3, rep: 0 },
   { Path: PlayerRun, SpriteKey: "player-run", AnimKey: "player-run-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 7, rate: 8, rep: -1 },
   { Path: PlayerWalk, SpriteKey: "player-walk", AnimKey: "player-walk-anim", frameWidth: 96, frameHeight: 84, startFrame: 0, endFrame: 7, rate: 8, rep: -1 }
 ];
@@ -35,6 +35,7 @@ export default class Player {
     this.speed = 300;
     this.colliderPool = [];
     this.isDead = false;
+    this.isHurt = false;
     this.currentMoveState = null;
     this.worldCollider = null;
 
@@ -145,10 +146,12 @@ export default class Player {
 
   GroundHandler() {
     if (!this.isInAttack) {
+
+      //:::::::::::::::::::::::::::::: LEFT_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
       if (this.playerMoveLeft.isDown || this.cursorKeys.left.isDown && this.playerBlock.isUp) {
         if (this.playerMoveLeft.isDown && this.playerRun.isDown) {
           this.CURRENT_MOVE_X = -2
-          if (!this.isInRunAttk){
+          if (!this.isInRunAttk) {
             PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
           }
         } else {
@@ -157,9 +160,9 @@ export default class Player {
             PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.WALK)
           }
         }
-
+        //:::::::::::::::::::::::::::::: RIGHT_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
       } else if (this.playerMoveRight.isDown || this.cursorKeys.right.isDown && this.playerBlock.isUp) {
-        if (this.playerMoveRight.isDown && this.playerRun.isDown){
+        if (this.playerMoveRight.isDown && this.playerRun.isDown) {
           this.CURRENT_MOVE_X = 2
           if (!this.isInRunAttk) {
             PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.RUN)
@@ -171,19 +174,28 @@ export default class Player {
           }
         }
 
+        //:::::::::::::::::::::::::::::: IDLE_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
       } else {
         this.CURRENT_MOVE_X = 0
-        if (!this.isInRunAttk) {
+        if (!this.isInRunAttk && !this.isJump) {
           PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.IDLE)
         }
       }
 
+      //:::::::::::::::::::::::::::::: DEFEND_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
       if (this.playerBlock.isDown) {
         this.CURRENT_MOVE_X = 0;
         PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.BLOCK)
       };
+
+      //:::::::::::::::::::::::::::::: JUMP_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
+      if (this.playerJump.isDown && this.currentMoveState != this.MOVE_STATES.JUMP) {
+        this.isJump = true
+      }
     }
 
+
+    //:::::::::::::::::::::::::::::: ATTACK_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
     if (this.playerAttack.isDown && this.currentMoveState != this.MOVE_STATES.WALK && this.currentMoveState != this.MOVE_STATES.RUN && !this.isInRunAttk) {
       this.attackJustPressed = true;
       this.isInAttack = true
@@ -198,11 +210,15 @@ export default class Player {
   }
 
   JumpHandler() {
-    if(this.playerJump.isdown && !this.isInAttack || !this.isInRunAttk){
-      this.isJump = true
-      console.log("ich springe")
+    //:::::::::::::::::::::::::::::: JUMP_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
+    if(this.playerJump.isDown) {
       PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
-    }
+      this.player.setVelocityY(-600)
+      
+    } 
+    // HIER MUSS NOCH DER FALL GEMACHT WERDEN
+
+    //:::::::::::::::::::::::::::::: FALL_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
   }
 
   flipX() {
@@ -217,6 +233,7 @@ export default class Player {
     this.controllInputsCheck();
     this.flipX();
 
+    console.log(this.currentMoveState)
     this.player.setVelocityX(this.CURRENT_MOVE_X * this.speed)
     PlayerStateMachine.Instance.update(time, delta)
   }

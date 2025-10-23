@@ -12,12 +12,12 @@ import PlayerAttack1 from "../assets/player/ATTACK_1.png";
 import PlayerAttack2 from "../assets/player/ATTACK_2.png";
 import PlayerAttack3 from "../assets/player/ATTACK_3.png";
 import PlayerDead from "../assets/player/DEATH.png";
-import PlayerDefend from "../assets/player/DEFEND.png";
-import PlayerHurt from "../assets/player/HURT.png";
-import PlayerIdle from "../assets/player/IDLE.png";
-import PlayerJump from "../assets/player/JUMP.png";
-import PlayerRun from "../assets/player/RUN.png";
-import PlayerWalk from "../assets/player/WALK.png";
+import PlayerDefend from "../assets/player/Defend.png";
+import PlayerHurt from "../assets/player/Hurt.png";
+import PlayerIdle from "../assets/player/Idle.png";
+import PlayerJump from "../assets/player/Jump.png";
+import PlayerRun from "../assets/player/Run.png";
+import PlayerWalk from "../assets/player/Walk.png";
 
 //::::::::::::::::::::::::::::::::::ENEMY_ASSETS:::::::::::::::::::::::::::::::::::::://
 

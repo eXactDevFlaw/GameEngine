@@ -46,6 +46,7 @@ export default class Player {
 
     this.isFloor = true;
     this.isJump = false;
+    this.JumpJustPressed = false;
 
     this.CURRENT_MOVE_X = 0;
     this.CURRENT_MOVE_Y = 0;
@@ -87,6 +88,8 @@ export default class Player {
     this.playerAttack = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     this.playerBlock = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
     this.playerRun = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+
+    this.playerJump.on("up", () => this.JumpJustPressed = false)
   }
 
   createAnimation() {
@@ -105,16 +108,23 @@ export default class Player {
     });
   };
 
+  setBodyOnNormal() {
+    this.player.body.setOffset(this.player.body.sourceWidth, this.player.body.sourceHeight -2.5)
+  }
+  setBodyOnJump() {
+    this.player.body.setOffset(0, 6)
+  }
+
   create(x, y) {
     this.init();
     this.createAnimation()
     this.getKeyboard();
     //CREATE_PLAYER_GAME_OBJECT
-    this.player = this.scene.physics.add.sprite(x, y, null)
+    this.player = this.scene.physics.add.sprite(x, -100 , null)
     this.player.depth = 3
+    //this.player.setOrigin(0.5, 0.5)
+    this.player.body.setOffset(this.player.frame.realWidth , this.player.body.sourceHeight -2.5)
     this.player.anims.play("player-idle-anim")
-    this.player.body.setSize(20, 30)
-    this.player.body.setOffset(38, 31)
     this.player.setScale(5)
 
     //World Collider!!!!
@@ -123,6 +133,7 @@ export default class Player {
         this.worldCollider.destroy();
       }
       this.isFloor = true;
+      this.isJump = false;
     });
 
     this.scene.cameras.main.startFollow(this.player, false, 0.1, 0.1)
@@ -135,6 +146,7 @@ export default class Player {
   }
 
   controllInputsCheck() {
+    
     if (!this.isJump) {
       this.GroundHandler();
     }
@@ -189,8 +201,12 @@ export default class Player {
       };
 
       //:::::::::::::::::::::::::::::: JUMP_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
-      if (this.playerJump.isDown && this.currentMoveState != this.MOVE_STATES.JUMP) {
+      if (this.playerJump.isDown && this.currentMoveState != this.MOVE_STATES.JUMP && !this.JumpJustPressed) {
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
+        this.player.setVelocityY(-600)
         this.isJump = true
+        this.JumpJustPressed = true;
+        return
       }
     }
 
@@ -211,11 +227,7 @@ export default class Player {
 
   JumpHandler() {
     //:::::::::::::::::::::::::::::: JUMP_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
-    if(this.playerJump.isDown) {
-      PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
-      this.player.setVelocityY(-600)
-      
-    } 
+    //NOP xD
     // HIER MUSS NOCH DER FALL GEMACHT WERDEN
 
     //:::::::::::::::::::::::::::::: FALL_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
@@ -230,11 +242,11 @@ export default class Player {
   }
 
   update(time, delta) {
+    PlayerStateMachine.Instance.update(time, delta)
     this.controllInputsCheck();
     this.flipX();
 
     console.log(this.currentMoveState)
     this.player.setVelocityX(this.CURRENT_MOVE_X * this.speed)
-    PlayerStateMachine.Instance.update(time, delta)
   }
 }

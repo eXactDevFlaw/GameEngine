@@ -56,6 +56,10 @@ export default class PlayerStateMachine {
                     this.player.setBodyOnNormal()
                     this.player.player.anims.play("player-defend-anim")
                 }
+                if (this.player.player.anims.currentFrame.textureFrame >= 5) {
+                    this.changeMoveState(this.player.MOVE_STATES.IDLE)
+                    this.player.isInBlock = false;
+                }
                 break
 
             case this.player.MOVE_STATES.NORMAL_ATTACK:

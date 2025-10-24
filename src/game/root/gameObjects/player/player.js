@@ -42,11 +42,12 @@ export default class Player {
     this.attackJustPressed = false;
     this.isInAttack = false;
     this.isInRunAttk = false;
-
+    this.isInBlock = false;
 
     this.isFloor = true;
     this.isJump = false;
     this.JumpJustPressed = false;
+    this.isFall = false;
 
     this.CURRENT_MOVE_X = 0;
     this.CURRENT_MOVE_Y = 0;
@@ -134,6 +135,7 @@ export default class Player {
       }
       this.isFloor = true;
       this.isJump = false;
+      this.isFall = false;
     });
 
     this.scene.cameras.main.startFollow(this.player, false, 0.1, 0.1)
@@ -195,17 +197,18 @@ export default class Player {
       }
 
       //:::::::::::::::::::::::::::::: DEFEND_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
-      if (this.playerBlock.isDown) {
+      if (this.playerBlock.isDown && this.currentMoveState != this.MOVE_STATES.BLOCK) {
+        this.isInBlock = true
         this.CURRENT_MOVE_X = 0;
         PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.BLOCK)
       };
 
       //:::::::::::::::::::::::::::::: JUMP_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
       if (this.playerJump.isDown && this.currentMoveState != this.MOVE_STATES.JUMP && !this.JumpJustPressed) {
-        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
         this.player.setVelocityY(-600)
         this.isJump = true
         this.JumpJustPressed = true;
+        PlayerStateMachine.Instance.changeMoveState(this.MOVE_STATES.JUMP)
         return
       }
     }
@@ -227,10 +230,14 @@ export default class Player {
 
   JumpHandler() {
     //:::::::::::::::::::::::::::::: JUMP_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
-    //NOP xD
-    // HIER MUSS NOCH DER FALL GEMACHT WERDEN
-
+    //                                                                                          //
+    //_____________HIER WIRD SONST DER JUMP GEREGELT WIE UP , SCHEITL, DOWN____________________ //
+    //                                                                                          //
     //:::::::::::::::::::::::::::::: FALL_MOVEMENT :::::::::::::::::::::::::::::::::::::::::::: //
+
+    if(this.isFall && !this.isFloor){
+      console.log("ich falle")
+    }
   }
 
   flipX() {
@@ -246,7 +253,6 @@ export default class Player {
     this.controllInputsCheck();
     this.flipX();
 
-    console.log(this.currentMoveState)
     this.player.setVelocityX(this.CURRENT_MOVE_X * this.speed)
   }
 }
